@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="../static/css/main.css" type="text/css" />
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+		<title>
+			Twitter Checkup
+		</title>
+	</head>
+
+	<body>
+		<div id="container">
+			<header>
+				<h1>Results</h1>
+			</header>
+			<div class="nav">
+				<a href="/">Home</a><br /><br />
+				<a href="#">Send Message</a><br /><br />
+				<a href="#">Inbox</a><br /><br />
+				<a href="#">Custom Feed</a><br /><br />
+				<a href="#">About</a><br />
+			</div>
+			<div class="main">
+				<p>Name: {{ output["name"] }}</p>
+				<p>Positive Word Percentage: {{ output["pos_per"] }}</p>
+				<p>Negative Word Percentage: {{ output["neg_per"] }}</p>
+				<p>Total Words Recognized: {{ output["total_word"] }}</p>
+				<p>Most distressed at: {{ output["most_distress"] }}</p>
+				<p>Needs support at: {{ output["support"] }}</p>
+
+				<canvas id="chart" width="600" height="400"></canvas>
+				<script>
+					var pieData = [
+	        			{% for item, label, colors in set %}
+	          				{
+					            value: {{item}},
+					            label: "{{label}}",
+					            color : "{{colors}}"
+	          				},
+	        			{% endfor %}
+	      			];
+	    			var mychart = document.getElementById("chart").getContext("2d");
+	      			steps = 10
+	      			max = {{ max }}
+	      			new Chart(document.getElementById("chart").getContext("2d")).Pie(pieData);
+				</script>
+			</div>
+		</div>
+	</body>
+
+	<footer>
+	</footer>
+</html>
